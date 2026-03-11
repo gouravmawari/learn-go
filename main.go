@@ -89,7 +89,7 @@ func EmailHandler(w http.ResponseWriter, r *http.Request){
 
 
 func main() {
-
+	go emailWorker();
 	http.HandleFunc("/", JWTMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "this is response")
 	}))
@@ -97,6 +97,7 @@ func main() {
 	http.HandleFunc("/user", NewPost)
 	http.HandleFunc("/emai",EmailHandler)
 	http.HandleFunc("/goroutine", GoRoutineHandler)
+	http.HandleFunc("/register", register)
 
 	http.ListenAndServe(":4563", nil)
 }

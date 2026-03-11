@@ -47,3 +47,23 @@ func GoRoutineHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 	fmt.Println("GoRoutineHandler done")
 }
+
+func sendEmail(email string ){
+	fmt.Println("email sent",email);
+}
+
+var jobs = make(chan string)
+func emailWorker(){
+	for email := range jobs{
+		sendEmail(email);
+	}
+
+	// for range jobs{
+	// 	sendEmail(email);
+	// }
+}
+func register(w http.ResponseWriter,r *http.Request){
+	jobs <- "smawari1000@gmail.com";
+	// jobs <- struct{}{} 
+	w.Write([]byte("User created"))
+}
