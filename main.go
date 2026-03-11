@@ -75,6 +75,19 @@ func NewPost(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
+
+func SendEmail(email string){
+	fmt.Println("Sending email to", email);
+	time.Sleep(3* time.Second);
+	fmt.Println("Email sended");
+}
+
+func EmailHandler(w http.ResponseWriter, r *http.Request){
+	go SendEmail("smawari1000@gmail.com");
+	fmt.Fprintf(w,"email has been sent");
+}
+
+
 func main() {
 
 	http.HandleFunc("/", JWTMiddleware(func(w http.ResponseWriter, r *http.Request) {
@@ -82,6 +95,8 @@ func main() {
 	}))
 
 	http.HandleFunc("/user", NewPost)
+	http.HandleFunc("/emai",EmailHandler)
+	http.HandleFunc("/goroutine", GoRoutineHandler)
 
 	http.ListenAndServe(":4563", nil)
 }
